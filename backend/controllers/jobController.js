@@ -26,7 +26,7 @@ export const postJob = catchAsyncError(async (req, res, next) => {
         fixedSalary: Joi.number().min(1000).max(1000000000),
         salaryFrom: Joi.number().min(1000).max(1000000000),
         salaryTo: Joi.number().min(1000).max(1000000000),
-        jobPostedBy: Joi.string().required()
+        user: Joi.required()
     })
         .xor("fixedSalary", "salaryFrom")
         .xor("fixedSalary", "salaryTo")
@@ -34,7 +34,7 @@ export const postJob = catchAsyncError(async (req, res, next) => {
         .with("salaryTo", "salaryFrom")
         .xor("salaryFrom", "fixedSalary")
         .xor("salaryTo", "fixedSalary");
-    const { value, error } = jobSchema.validate(req.body, { abortEarly: false }, { stripunknown: true });
+    const { value, error } = jobSchema.validate(req.body, { stripunknown: true });
     if (error) {
         return next(new ErrorHandler(error.details.map(err => err.message).join(","), 400));
     }
