@@ -140,6 +140,9 @@ const JobSeekerCard = ({ element, deleteApplication, openModal }) => {
           <p>
             <span>CoverLetter:</span> {element.coverLetter}
           </p>
+          <p>
+            <span>Job:</span> {element.jobId.title}
+          </p>
         </div>
         <div className="resume">
           <img
@@ -177,6 +180,9 @@ const EmployerCard = ({ element, openModal }) => {
           </p>
           <p>
             <span>CoverLetter:</span> {element.coverLetter}
+          </p>
+          <p>
+            <span>Job:</span> {element.jobId.title}
           </p>
         </div>
         <div className="resume">

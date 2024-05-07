@@ -96,9 +96,10 @@ p {
   font-size: 1.6rem;
 }
 .authPage .container .header img {
-  width: 300px;
-  height: 120px;
   margin: 0 auto;
+  width: 300px;
+  height:300px;
+  margin-bottom: -70px;
 }
 .authPage .container .header {
   text-align: center;
@@ -268,6 +269,8 @@ p {
 .heroSection .container .title p {
   margin-top: 1.5rem;
   max-width: 600px;
+  color: gray;
+  font-size: larger;
 }
 .heroSection .container .image {
   overflow: hidden;
@@ -288,6 +291,7 @@ p {
   background: #f1f3f6;
   width: 220px;
   padding: 10px 20px;
+  border-radius: 1rem;
 }
 .heroSection .details .card .icon {
   font-size: 24px;
@@ -394,6 +398,7 @@ p {
   padding: 30px 50px;
   gap: 12px;
   justify-content: center;
+  border-radius: 2rem;
 }
 .howitworks .container .banner .card:nth-child(2) {
   background: #18191c;
@@ -454,6 +459,7 @@ p {
   align-items: center;
   gap: 12px;
   background: #f1f3f6;
+  border-radius: 1rem;
 }
 .categories .banner .card:hover {
   transition: all 0.3s;
@@ -522,9 +528,10 @@ p {
   width: 340px;
   display: flex;
   flex-direction: column;
-  background: #fff;
+  background: #ffffff;
   padding: 20px;
   gap: 15px;
+  border-radius: 1rem;
 }
 .companies .container .banner .card:hover {
   transition: all 0.3s;
@@ -582,6 +589,7 @@ p {
 @media (max-width: 470px) {
   .companies .container .banner .card {
     width: 100%;
+    
   }
 }
 .jobs {
@@ -616,6 +624,8 @@ p {
   flex-direction: column;
   gap: 10px;
   justify-content: center;
+  border-radius: 1rem;
+  
 }
 .jobs .container .banner .card:hover {
   transition: all 0.3s;

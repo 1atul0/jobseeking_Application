@@ -39,13 +39,14 @@ const applicationSchema = new mongoose.Schema({
     },
     jobId:{
         type:mongoose.Types.ObjectId,
+        ref:'Job',
         required:true,
     },
     applicantId: {
         user: {
             type: mongoose.Types.ObjectId,
+            ref: "User",
             required: true,
-            ref: "User"
         },
         role: {
             type: String,

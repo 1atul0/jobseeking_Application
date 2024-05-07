@@ -36,9 +36,7 @@ const HeroSection = () => {
             <h1>Find a job that suits</h1>
             <h1>your interests and skills</h1>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem
-              voluptate repellat modi quidem aliquid eaque ducimus ipsa et,
-              facere mollitia!
+            Our aim is to tailor job recommendations to your unique skill set and interests, ensuring that the opportunities presented align closely with what you're proficient in and passionate about. By understanding your capabilities and preferences, we strive to facilitate a more personalized job search experience, increasing the likelihood of finding positions that are not only suitable but also fulfilling for you.
             </p>
           </div>
           <div className="image">

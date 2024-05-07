@@ -10,7 +10,8 @@ export const employerGetAllApplications = catchAsyncError(async (req, res, next)
         return next(new ErrorHandler("Job seekers are not authorized to view this page", 403));
     }
     const { _id } = req.user;
-    const applications = await Application.find({ "employerId.user": _id });
+    const applications = await Application.find({ "employerId.user": _id }).populate({path:"jobId", select:"title"});
+    // console.log(applications);
     res.status(200).json({
         success: true,
         applications
@@ -24,7 +25,11 @@ export const jobSeekerGetAllApplications = catchAsyncError(async (req, res, next
     }
     const { _id } = req.user;
     // console.log(_id);
-    const applications = await Application.find({ "applicantId.user": _id });
+    const applications = await Application.find({ "applicantId.user": _id }).populate({
+        path: 'jobId',
+        select: 'title'
+    });
+    // console.log(applications);
     res.status(200).json({
         success: true,
         applications

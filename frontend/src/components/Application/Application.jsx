@@ -3,6 +3,7 @@ import React, { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import { Context } from "../../main";
+
 const Application = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -10,10 +11,11 @@ const Application = () => {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [resume, setResume] = useState(null);
+  const [isLoading, setIsLoading] = useState(false); // New state for loading indicator
 
   const { isAuthorized, user } = useContext(Context);
-
   const navigateTo = useNavigate();
+  const { id } = useParams();
 
   // Function to handle file input changes
   const handleFileChange = (event) => {
@@ -21,9 +23,9 @@ const Application = () => {
     setResume(resume);
   };
 
-  const { id } = useParams();
   const handleApplication = async (e) => {
     e.preventDefault();
+    setIsLoading(true); // Set loading state to true on form submission
     const formData = new FormData();
     formData.append("name", name);
     formData.append("email", email);
@@ -54,6 +56,8 @@ const Application = () => {
       navigateTo("/job/getall");
     } catch (error) {
       toast.error(error.response.data.message);
+    } finally {
+      setIsLoading(false); // Set loading state to false after form submission
     }
   };
 
@@ -108,7 +112,9 @@ const Application = () => {
               style={{ width: "100%" }}
             />
           </div>
-          <button type="submit">Send Application</button>
+          <button type="submit" disabled={isLoading}>
+            {isLoading ? "Submitting..." : "Send Application"}
+          </button>
         </form>
       </div>
     </section>
