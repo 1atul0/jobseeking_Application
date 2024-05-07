@@ -23,7 +23,8 @@ export const jobSeekerGetAllApplications = catchAsyncError(async (req, res, next
         return next(new ErrorHandler("Employer are not authorized to view this page", 403));
     }
     const { _id } = req.user;
-    const applications = await Application.find({ "applicatantId.user": _id });
+    // console.log(_id);
+    const applications = await Application.find({ "applicantId.user": _id });
     res.status(200).json({
         success: true,
         applications
@@ -78,13 +79,13 @@ export const postApplication = catchAsyncError(async (req, res, next) => {
     // console.log(jobId, req.user._id);
     const existingApplication = await Application.findOne({ jobId, "applicantId.user": req.user._id });
     if (existingApplication) {
-      return   res.status(200).json({
-          message: "You have already applied for this job",
+        return res.status(200).json({
+            message: "You have already applied for this job",
             existingApplication,
             success: true,
         });
     }
-   
+
     if (!req.files || Object.keys(req.files).length === 0)
         return next(new ErrorHandler("Please upload your resume", 400));
     const { resume } = req.files;
@@ -98,14 +99,14 @@ export const postApplication = catchAsyncError(async (req, res, next) => {
         console.log("cloudinary errpr", cloudinaryResponse.error || "unknown cloudinary error");
         return next(new ErrorHandler("Failed to upload resume", 500));
     }
-   
-    
-    
+
+
+
     const applicantId = {
         user: req.user._id,
         role: req.user.role
     };
-    
+
     const employerId = {
         user: job.jobPostedBy,
         role: "Employer"

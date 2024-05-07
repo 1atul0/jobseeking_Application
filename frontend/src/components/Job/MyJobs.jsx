@@ -17,7 +17,7 @@ const MyJobs = () => {
     const fetchJobs = async () => {
       try {
         const { data } = await axios.get(
-          "http://localhost:4000/api/v1/job/myJobs",
+          "http://localhost:4000/api/v1/job/getmyjobs",
           { withCredentials: true }
         );
         setMyJobs(data.myJobs);
@@ -162,36 +162,20 @@ const MyJobs = () => {
                               editingMode !== element._id ? true : false
                             }
                           >
-                            <option value="Graphics & Design">
-                              Graphics & Design
+                            <option value="Information Technology">
+                              Information Technology
                             </option>
-                            <option value="Mobile App Development">
-                              Mobile App Development
+                            <option value="Healthcare">
+                              Healthcare
                             </option>
-                            <option value="Frontend Web Development">
-                              Frontend Web Development
+                            <option value="Education">
+                              Education
                             </option>
-                            <option value="MERN Stack Development">
-                              MERN STACK Development
+                            <option value="Finance">Finance</option>
+                            <option value="Business">
+                              Business
                             </option>
-                            <option value="Account & Finance">
-                              Account & Finance
-                            </option>
-                            <option value="Artificial Intelligence">
-                              Artificial Intelligence
-                            </option>
-                            <option value="Video Animation">
-                              Video Animation
-                            </option>
-                            <option value="MEAN Stack Development">
-                              MEAN STACK Development
-                            </option>
-                            <option value="MEVN Stack Development">
-                              MEVN STACK Development
-                            </option>
-                            <option value="Data Entry Operator">
-                              Data Entry Operator
-                            </option>
+                            <option value="Others">Others</option>
                           </select>
                         </div>
                         <div>
@@ -286,9 +270,9 @@ const MyJobs = () => {
                           />
                         </div>
                         <div>
-                          <span>Location: </span>
+                          <span>Address: </span>
                           <textarea
-                            value={element.location}
+                            value={element.address}
                             rows={5}
                             disabled={
                               editingMode !== element._id ? true : false
@@ -296,7 +280,7 @@ const MyJobs = () => {
                             onChange={(e) =>
                               handleInputChange(
                                 element._id,
-                                "location",
+                                "address",
                                 e.target.value
                               )
                             }

@@ -55,7 +55,7 @@ const jobSchema = new mongoose.Schema({
         type:Date,
         default:Date.now,
     },
-    user:{
+    jobPostedBy:{
         type:mongoose.Schema.ObjectId,
         ref:"User",
         required:true

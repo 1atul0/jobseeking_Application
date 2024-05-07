@@ -16,9 +16,9 @@ const PostJob = () => {
   const [salaryType, setSalaryType] = useState("default");
 
   const { isAuthorized, user } = useContext(Context);
-
   const handleJobPost = async (e) => {
     e.preventDefault();
+    console.log(user);
     if (salaryType === "Fixed Salary") {
       setSalaryFrom("");
       setSalaryFrom("");
@@ -31,7 +31,7 @@ const PostJob = () => {
     }
     await axios
       .post(
-        "http://localhost:4000/api/v1/job/postjob",
+        "http://localhost:4000/api/v1/job/post",
         fixedSalary.length >= 4
           ? {
               title,
@@ -41,7 +41,7 @@ const PostJob = () => {
               city,
               address,
               fixedSalary,
-              user
+
             }
           : {
               title,
@@ -52,7 +52,7 @@ const PostJob = () => {
               address,
               salaryFrom,
               salaryTo,
-              user
+              
             },
         {
           withCredentials: true,
@@ -92,7 +92,6 @@ const PostJob = () => {
                 onChange={(e) => setCategory(e.target.value)}
               >
                 <option value="">Select Category</option>
-                <option value="Graphics & Design">Graphics & Design</option>
                 <option value="Information Technology">
                   Information Technology
                 </option>

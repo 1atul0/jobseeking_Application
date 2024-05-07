@@ -11,6 +11,23 @@ export const getAllJobs = catchAsyncError(async (req, res, next) => {
     });
 });
 
+export const getAJob = catchAsyncError(async (req, res, next) => {
+    const { id } = req.params;
+    try {
+        const job = await Job.findById(id);
+        if (!job) {
+            return next(new ErrorHandler("Job not found.", 404));
+        }
+        res.status(200).json({
+            success: true,
+            job,
+        });
+    } catch (error) {
+        return next(new ErrorHandler(`Invalid ID / CastError`, 404));
+    }
+});
+
+
 export const postJob = catchAsyncError(async (req, res, next) => {
     const { role } = req.user;
     if (role === "Job Seeker") {
@@ -26,7 +43,6 @@ export const postJob = catchAsyncError(async (req, res, next) => {
         fixedSalary: Joi.number().min(1000).max(1000000000),
         salaryFrom: Joi.number().min(1000).max(1000000000),
         salaryTo: Joi.number().min(1000).max(1000000000),
-        user: Joi.required()
     })
         .xor("fixedSalary", "salaryFrom")
         .xor("fixedSalary", "salaryTo")
@@ -38,6 +54,7 @@ export const postJob = catchAsyncError(async (req, res, next) => {
     if (error) {
         return next(new ErrorHandler(error.details.map(err => err.message).join(","), 400));
     }
+    value.jobPostedBy = req.user._id;
     const job = await Job.create(value);
     res.status(200).json({
         success: true,
@@ -70,8 +87,8 @@ export const updateJob = catchAsyncError(async (req, res, next) => {
     if (!job) {
         return next(new ErrorHandler("Job not found", 404));
     }
-    if(job.jobPostedBy.ObjectId!==req.user._id.ObjectId){
-        return next(new ErrorHandler("You are not authorized to update this job",403));
+    if (job.jobPostedBy.toString() !== req.user._id.toString()) {
+        return next(new ErrorHandler("You are not authorized to update this job", 403));
     }
     const updateJob = Joi.object({
         title: Joi.string().min(5).max(100),
@@ -84,13 +101,17 @@ export const updateJob = catchAsyncError(async (req, res, next) => {
         salaryFrom: Joi.number().min(1000).max(1000000000),
         salaryTo: Joi.number().min(Joi.ref('salaryFrom')).max(1000000000),
         expired: Joi.boolean(),
-    }).xor("fixedSalary", "salaryFrom")
-    .with("salaryFrom", "salaryTo") 
-    .with("salaryTo", "salaryFrom");
-    const { value, error } = updateJob.validate(req.body, { abortEarly: false }, { stripunknown: true });
+    })
+        .with("salaryFrom", "salaryTo")
+        .with("salaryTo", "salaryFrom");
+
+    const { value, error } = updateJob.validate(req.body, { stripUnknown: true });
     if (error) {
-    return next(new ErrorHandler(error.details.map(err => err.message).join(","), 400));
+        return next(new ErrorHandler(error.details.map(err => err.message).join(","), 400));
+
     }
+
+
     job = await Job.findByIdAndUpdate(id, value, { new: true, runValidators: true, useFindAndModify: false });
     res.status(200).json({
         success: true,
@@ -99,23 +120,23 @@ export const updateJob = catchAsyncError(async (req, res, next) => {
     })
 })
 
-export const deleteJob=catchAsyncError(async(req,res,next)=>{
-    const {role}=req.user;
-    if(role==="Job Seeker"){
-        return next(new ErrorHandler("You are not authorized to delete a job",403));
+export const deleteJob = catchAsyncError(async (req, res, next) => {
+    const { role } = req.user;
+    if (role === "Job Seeker") {
+        return next(new ErrorHandler("You are not authorized to delete a job", 403));
     }
-    const {id}=req.params;
-    let job=await Job.findById(id);
-    if(!job){
-        return next(new ErrorHandler("Job not found",404));
+    const { id } = req.params;
+    let job = await Job.findById(id);
+    if (!job) {
+        return next(new ErrorHandler("Job not found", 404));
     }
-    console.log(job.jobPostedBy,req.user._id);
-    if(job.jobPostedBy.ObjectId!==req.user._id.ObjectId){ 
-        return next(new ErrorHandler("You are not authorized to delete this job",403));
+    
+    if (job.jobPostedBy.toString() !== req.user._id.toString()) {
+        return next(new ErrorHandler("You are not authorized to delete this job", 403));
     }
-    job=await Job.findByIdAndDelete(id);
+    job = await Job.findByIdAndDelete(id);
     res.status(200).json({
-        success:true,
-        message:"Job deleted successfully"
+        success: true,
+        message: "Job deleted successfully"
     })
 })
