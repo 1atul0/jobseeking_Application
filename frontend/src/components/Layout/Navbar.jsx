@@ -27,10 +27,10 @@ const Navbar = () => {
   };
 
   return (
-    <nav className={isAuthorized ? "navbarShow" : "navbarHide"}>
-      <div className="container">
+    <nav className={isAuthorized ? "navbarShow" : "navbarHide"} style={{backgroundColor:"yellowgreen"}}>
+      <div className="container" >
         <div className="logo">
-          <img src="/JobZee-logos__white.png" alt="logo" />
+          <img src="/careerquest.png" alt="logo" />
         </div>
         <ul className={!show ? "menu" : "show-menu menu"}>
           <li>
