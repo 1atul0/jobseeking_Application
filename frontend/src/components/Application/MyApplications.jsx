@@ -68,49 +68,103 @@ const MyApplications = () => {
     setModalOpen(false);
   };
 
+  const convertToCSV = (data) => {
+    const headers = [
+      "Name",
+      "Email",
+      "Phone",
+      "Address",
+      "CoverLetter",
+      "Job Title",
+    ];
+
+    const rows = data.map((application) => [
+      application.name,
+      application.email,
+      application.phone,
+      application.address,
+      application.coverLetter,
+      application.jobId.title,
+    ]);
+
+    const csvContent = [
+      headers.join(","),
+      ...rows.map(row => row.join(",")),
+    ].join("\n");
+
+    return csvContent;
+  };
+
+  const downloadCSV = () => {
+    const csvContent = convertToCSV(applications);
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", "applications.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <section className="my_applications page">
-      {user && user.role === "Job Seeker" ? (
-        <div className="container">
-          <h1>My Applications</h1>
-          {applications.length <= 0 ? (
-            <>
-              {" "}
-              <h4>No Applications Found</h4>{" "}
-            </>
-          ) : (
-            applications.map((element) => {
-              return (
-                <JobSeekerCard
-                  element={element}
-                  key={element._id}
-                  deleteApplication={deleteApplication}
-                  openModal={openModal}
-                />
-              );
-            })
-          )}
-        </div>
-      ) : (
-        <div className="container">
-          <h1>Applications From Students</h1>
-          {applications.length <= 0 ? (
-            <>
+      <div className="container">
+        {user && user.role === "Job Seeker" ? (
+          <>
+            <h1>My Applications</h1>
+            {applications.length > 0 && (
+              <button
+                onClick={downloadCSV}
+                // style={{ float: "right", marginBottom: "10px" ,width:"200px" , height:"50px",borderRadius:"8px",}}
+                className="download-csv-btn"
+              >
+                <span style={{ color: "green", fontSize: "20px", cursor: "pointer" }}>Download CSV</span>
+              </button>
+            )}
+            {applications.length <= 0 ? (
               <h4>No Applications Found</h4>
-            </>
-          ) : (
-            applications.map((element) => {
-              return (
-                <EmployerCard
-                  element={element}
-                  key={element._id}
-                  openModal={openModal}
-                />
-              );
-            })
-          )}
-        </div>
-      )}
+            ) : (
+              applications.map((element) => {
+                return (
+                  <JobSeekerCard
+                    element={element}
+                    key={element._id}
+                    deleteApplication={deleteApplication}
+                    openModal={openModal}
+                  />
+                );
+              })
+            )}
+          </>
+        ) : (
+          <>
+            <h1>Applications From Students</h1>
+            {applications.length > 0 && (
+              <button
+                onClick={downloadCSV}
+                // style={{ float: "right", marginBottom: "10px", width: "200px", height: "50px", borderRadius: "8px" }}
+                className="download-csv-btn"
+              >
+                <span style={{ color: "green", fontSize: "20px", cursor: "pointer" }}>Download CSV</span>
+              </button>
+            )}
+            {applications.length <= 0 ? (
+              <h4>No Applications Found</h4>
+            ) : (
+              applications.map((element) => {
+                return (
+                  <EmployerCard
+                    element={element}
+                    key={element._id}
+                    openModal={openModal}
+                  />
+                );
+              })
+            )}
+          </>
+        )}
+      </div>
       {modalOpen && (
         <ResumeModal imageUrl={resumeImageUrl} onClose={closeModal} />
       )}

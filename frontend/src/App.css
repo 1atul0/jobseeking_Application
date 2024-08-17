@@ -1359,3 +1359,19 @@ nav .hamburger {
     z-index: 11;
   }
 }
+
+
+.download-csv-btn {
+  float: right;
+  margin-bottom: 10px;
+  width: 200px;
+  height: 50px;
+  border-radius: 8px;
+  background-color: white;
+  transition: background-color 0.3s ease;
+}
+
+.download-csv-btn:hover {
+  background-color: rgb(192, 171, 171);
+  text-decoration-color: #18191c;
+}
