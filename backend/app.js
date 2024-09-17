@@ -9,7 +9,7 @@ import jobRouter from "./routes/jobRouter.js";
 import { dbConnection } from './database/dbConnection.js';
 import { errorMiddleware } from './middlewares/error.js';
 import cloudinary from "cloudinary";
-import path from "path";
+// import path from "path";
 
 
 //starting express app
@@ -20,7 +20,7 @@ cloudinary.v2.config({
     api_secret: process.env.CLOUDINARY_SECRET_KEY
 });
 
-const _dirname = path.resolve();
+// const _dirname = path.resolve();
 
 
 
@@ -29,7 +29,7 @@ dotenv.config({ path: ".env" });
 
 // setting cors to communicate with frontend
 app.use(cors({
-    origin: [process.env.FRONTEND_URL],
+    // origin: [process.env.FRONTEND_URL],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
 }));
@@ -58,12 +58,23 @@ dbConnection();
 
 //setting error middleware
 app.use(errorMiddleware)
-
-app.use(express.static(path.join(_dirname,"/frontend/dist")))
-app.get("*",(req,res)=>{
-    // res.send("<H1>Page not found.</H1>");
-    res.sendFile(path.resolve(_dirname,"frontend","dist","index.html"))
-})
+// Serve static frontend assets in production
+if (process.env.NODE_ENV === 'production') {
+    const path = require('path');
+    
+    // Serve the frontend build
+    app.use(express.static(path.join(__dirname, 'frontend', 'build')));
+  
+    // Serve the index.html for any other route
+    app.get('*', (req, res) => {
+      res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
+    });
+  }
+// app.use(express.static(path.join(_dirname,"/frontend/dist")))
+// app.get("*",(req,res)=>{
+//     // res.send("<H1>Page not found.</H1>");
+//     res.sendFile(path.resolve(_dirname,"frontend","dist","index.html"))
+// })
 
 app.listen(process.env.PORT || 3000, () => {
     console.log(`Server is running on port ${process.env.PORT || 3000}`);
