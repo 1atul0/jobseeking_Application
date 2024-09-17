@@ -29,7 +29,7 @@ dotenv.config({ path: ".env" });
 
 // setting cors to communicate with frontend
 app.use(cors({
-    // origin: [process.env.FRONTEND_URL],
+    origin: ["https://jobseeking-application-1.onrender.com"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
 }));
