@@ -7,12 +7,25 @@ import userRouter from './routes/userRouter.js';
 import applicationRouter from "./routes/applicationRouter.js"
 import jobRouter from "./routes/jobRouter.js";
 import { dbConnection } from './database/dbConnection.js';
-import  { errorMiddleware } from './middlewares/error.js';
+import { errorMiddleware } from './middlewares/error.js';
+import cloudinary from "cloudinary";
+import path from "path";
+
+
 //starting express app
 const app = express();
+cloudinary.v2.config({
+    cloud_name: process.env.CLOUDINARY_CLIENT_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_SECRET_KEY
+});
+
+const _dirname = path.resolve();
+
+
 
 //configuring dotenv to use the environment variables
-dotenv.config({ path: "./config/config.env" });
+dotenv.config({ path: ".env" });
 
 // setting cors to communicate with frontend
 app.use(cors({
@@ -45,5 +58,13 @@ dbConnection();
 
 //setting error middleware
 app.use(errorMiddleware)
-//exporting app
-export default app;
+
+app.use(express.static(path.join(_dirname,"/frontend/dist")))
+app.get("*",(req,res)=>{
+    // res.send("<H1>Page not found.</H1>");
+    res.sendFile(path.resolve(_dirname,"frontend","dist","index.html"))
+})
+
+app.listen(process.env.PORT || 3000, () => {
+    console.log(`Server is running on port ${process.env.PORT || 3000}`);
+})
