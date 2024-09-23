@@ -140,6 +140,17 @@ p {
   padding: 8px;
   color: #fff;
 }
+button{
+  padding: 12px;
+  text-align: center;
+  border: none;
+  margin-top: 25px;
+  font-weight: 700;
+  color: #fff;
+  background: #2d5649;
+  font-size: 1.2rem;
+  border-radius: 7px;
+}
 .authPage .container form button {
   padding: 12px;
   text-align: center;

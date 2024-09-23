@@ -105,7 +105,7 @@ const Login = () => {
             <Link to={"/register"}>Register Now</Link>
             {/* <Link to={"/"}>Guest Login</Link> */}
           </form>
-          <button onClick={handleGuestLogin}>guestlogin</button>
+          <button onClick={handleGuestLogin}>Guest Login</button>
         </div>
         <div className="banner">
           <img src="/login.png" alt="login" />

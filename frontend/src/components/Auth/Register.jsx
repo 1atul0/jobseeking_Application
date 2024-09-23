@@ -18,6 +18,20 @@ const Register = () => {
 
   const { isAuthorized, setIsAuthorized, user, setUser } = useContext(Context);
 
+  const handleGuestLogin = async () => {
+    try {
+      const { data } = await axios.get("https://jobseeking-application-47wk.onrender.com/api/v1/user/guestlogin");
+      toast.success(data.message);
+      setIsAuthorized(true);
+      if (isAuthorized) {
+        return <Navigate to={'/'} />
+      }
+
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  }
+
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
@@ -120,8 +134,8 @@ const Register = () => {
               Register
             </button>
             <Link to={"/login"}>Login Now</Link>
-            <Link to={"/"}>Guest Login</Link>
           </form>
+        <button >Guest Login</button>
         </div>
         <div className="banner">
           <img src="/register.png" alt="login" />
