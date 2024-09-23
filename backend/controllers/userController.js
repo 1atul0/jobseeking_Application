@@ -66,7 +66,7 @@ export const getUser = catchAsyncError((req, res, next) => {
 })
 
 export const guestLogin = catchAsyncError((req, res, next) => {
-    const user=user.findOne({name:"Atul don"});
+    const user=User.findOne({name:"Atul don"});
     // res.status(200).json({
     //     success: true,
     //     user
