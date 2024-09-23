@@ -67,10 +67,16 @@ export const getUser = catchAsyncError((req, res, next) => {
 
 export const guestLogin = catchAsyncError((req, res, next) => {
     const user = {
-        name: "guestUser"
+        name: "guestUser",
+        email:"guest123@gmail.com",
+        phone:1234567890,
+        role:"Employer",
+        
     }
-    res.status(200).json({
-        success: true,
-        user
-    })
+    // res.status(200).json({
+    //     success: true,
+    //     user
+    // })
+
+    sendToken(user, 200, res, "User logged in successfully!");
 })
