@@ -14,10 +14,17 @@ const Login = () => {
 
   const { isAuthorized, setIsAuthorized } = useContext(Context);
 
-  const handleGuestLogin=()=>{
-    setIsAuthorized(true);
-    if(isAuthorized){
-      return <Navigate to={'/'}/>
+  const handleGuestLogin = async () => {
+    try {
+      const { data } = await axios.get("https://jobseeking-application-47wk.onrender.com/api/v1/user/guestlogin");
+      toast.success(data.message);
+      setIsAuthorized(true);
+      if (isAuthorized) {
+        return <Navigate to={'/'} />
+      }
+
+    } catch (error) {
+      toast.error(error.response.data.message);
     }
   }
 
@@ -44,8 +51,8 @@ const Login = () => {
     }
   };
 
-  if(isAuthorized){
-    return <Navigate to={'/'}/>
+  if (isAuthorized) {
+    return <Navigate to={'/'} />
   }
 
   return (
@@ -98,7 +105,7 @@ const Login = () => {
             <Link to={"/register"}>Register Now</Link>
             {/* <Link to={"/"}>Guest Login</Link> */}
           </form>
-            <button onClick={handleGuestLogin}>guestlogin</button>
+          <button onClick={handleGuestLogin}>guestlogin</button>
         </div>
         <div className="banner">
           <img src="/login.png" alt="login" />
