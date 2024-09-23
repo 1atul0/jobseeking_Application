@@ -28,6 +28,7 @@ const _dirname = path.resolve();
 dotenv.config({ path: ".env" });
 
 // setting cors to communicate with frontend
+
 app.use(cors({
     origin: ["https://jobseeking-application-47wk.onrender.com"],
     methods: ["GET", "POST", "PUT", "DELETE"],
@@ -61,19 +62,19 @@ app.use(errorMiddleware)
 // Serve static frontend assets in production
 // if (process.env.NODE_ENV === 'production') {
 //     const path = require('path');
-    
+
 //     // Serve the frontend build
 //     app.use(express.static(path.join(__dirname, 'frontend', 'build')));
-  
+
 //     // Serve the index.html for any other route
 //     app.get('*', (req, res) => {
 //       res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
 //     });
 //   }
-app.use(express.static(path.join(_dirname,"/frontend/dist")))
-app.get("*",(req,res)=>{
+app.use(express.static(path.join(_dirname, "/frontend/dist")))
+app.get("*", (req, res) => {
     // res.send("<H1>Page not found.</H1>");
-    res.sendFile(path.resolve(_dirname,"frontend","dist","index.html"))
+    res.sendFile(path.resolve(_dirname, "frontend", "dist", "index.html"))
 })
 
 app.listen(process.env.PORT || 3000, () => {

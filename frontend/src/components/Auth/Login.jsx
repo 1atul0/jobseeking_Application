@@ -14,6 +14,13 @@ const Login = () => {
 
   const { isAuthorized, setIsAuthorized } = useContext(Context);
 
+  const handleGuestLogin=()=>{
+    setIsAuthorized(true);
+    if(isAuthorized){
+      return <Navigate to={'/'}/>
+    }
+  }
+
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
@@ -89,7 +96,9 @@ const Login = () => {
               Login
             </button>
             <Link to={"/register"}>Register Now</Link>
+            {/* <Link to={"/"}>Guest Login</Link> */}
           </form>
+            <button onClick={handleGuestLogin}>guestlogin</button>
         </div>
         <div className="banner">
           <img src="/login.png" alt="login" />

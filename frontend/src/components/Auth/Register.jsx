@@ -120,6 +120,7 @@ const Register = () => {
               Register
             </button>
             <Link to={"/login"}>Login Now</Link>
+            <Link to={"/"}>Guest Login</Link>
           </form>
         </div>
         <div className="banner">
